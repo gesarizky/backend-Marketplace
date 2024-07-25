@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { Merchant } = require("../models");
 const router = express.Router();
-const SECRET_KEY = "your_secret_key";
+const SECRET_KEY = process.env.SECRET_KEY;
 
 router.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
@@ -29,7 +29,7 @@ router.post("/login", async (req, res) => {
   if (!validPass) return res.status(400).send("Invalid password");
 
   const token = jwt.sign({ id: merchant.id }, SECRET_KEY);
-  res.header("Authorization", token).send(token);
+  res.header("Authorization", token).json({ token });
 });
 
 module.exports = router;
