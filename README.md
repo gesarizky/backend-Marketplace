@@ -1,52 +1,130 @@
-# Marketplace API
+# backend-nama-lengkap
 
-## How to install and run
+## Setup
 
 1. Clone the repository
+
+    ```bash
+    git clone https://github.com/yourusername/backend-nama-lengkap.git
+    cd backend-nama-lengkap
+    ```
+
 2. Install dependencies
 
     ```bash
     npm install
     ```
 
-3. Create a database named `marketplace`
-4. Update `config/config.json` with your database credentials
-5. Run the server
+3. Configure environment variables
+    - Create a `.env` file in the root directory
+    - Add the following content
+
+        ```dotenv
+        JWT_SECRET=your_jwt_secret
+        ```
+
+4. Setup the database
+    - Create a MySQL database named `marketplace`
+    - Configure your database credentials in `config/config.json`
+
+5. Run migrations
 
     ```bash
-    npm run dev
+    npx sequelize-cli db:migrate
     ```
 
-## API Endpoints
+6. Start the server
+
+    ```bash
+    npm start
+    ```
+
+## Usage
 
 ### Auth
 
-- `POST /api/auth/register` - Register a new merchant
-- `POST /api/auth/login` - Login as a merchant
+#### Register
 
-### Merchant
+    POST /api/auth/register
+    Body:
+    {
+        "username": "merchant1",
+        "password": "password",
+        "role": "merchant"
+    }
 
-- `POST /api/merchant/product` - Create a new product
-- `PUT /api/merchant/product/:id` - Update a product
-- `DELETE /api/merchant/product/:id` - Delete a product
-- `GET /api/merchant/customers` - Get customers who bought products
+#### Login
 
-### Customer
+    POST /api/auth/login
+    Body:
+    {
+        "username": "merchant1",
+        "password": "password"
+    }
 
-- `GET /api/customer/products` - List all products
-- `POST /api/customer/buy` - Buy a product
+### Products
+
+#### Create Product (Merchant only)
+
+    POST /api/products
+    Headers:
+    {
+        "Authorization": "Bearer your_jwt_token"
+    }
+    Body:
+    {
+        "name": "Product A",
+        "price": 20000
+    }
+
+#### List Products
+
+    GET /api/products
+
+#### Update Product (Merchant only)
+
+    PUT /api/products/:id
+    Headers:
+    {
+        "Authorization": "Bearer your_jwt_token"
+    }
+    Body:
+    {
+        "name": "Product A Updated",
+        "price": 25000
+    }
+
+#### Delete Product (Merchant only)
+
+    DELETE /api/products/:id
+    Headers:
+    {
+        "Authorization": "Bearer your_jwt_token"
+    }
+
+### Transactions
+
+#### Create Transaction (Customer only)
+
+    POST /api/transactions
+    Headers:
+    {
+        "Authorization": "Bearer your_jwt_token"
+    }
+    Body:
+    {
+        "productId": 1,
+        "quantity": 3
+    }
+
+#### Get Transactions by Merchant (Merchant only)
+
+    GET /api/transactions/merchant
+    Headers:
+    {
+        "Authorization": "Bearer your_jwt_token"
+    }
 
 ## Postman Collection
 
-Import the provided Postman Collection for testing the API endpoints.
-
-### How to Import Postman Collection
-
-1. Open Postman
-2. Click on `Import` button
-3. Select the file `Marketplace_API.postman_collection.json` from the `postman` directory
-4. Start testing the endpoints
-
-## Postman Collection File
-
-The Postman Collection file is located in the `postman` directory and is named `Marketplace_API.postman_collection.json`.
+- Import the provided `postman_collection.json` into Postman to quickly test the endpoints.

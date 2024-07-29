@@ -1,29 +1,38 @@
-const { Sequelize, DataTypes } = require("sequelize");
-const config = require("../config/config.json");
+// import { Sequelize } from "sequelize";
+// import dotenv from "dotenv";
 
-const sequelize = new Sequelize(
-  config.development.database,
-  config.development.username,
-  config.development.password,
-  {
-    host: config.development.host,
-    dialect: config.development.dialect,
-  }
-);
+// dotenv.config();
 
-const db = {};
+// const DATABASE = process.env.DATABASE;
+// const DATABASE_USERNAME = process.env.DATABASE_USERNAME;
+// const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
+// const DATABASE_HOST = process.env.DATABASE_HOST;
+// const DATABASE_PORT = process.env.DATABASE_PORT;
+// const DATABASE_TYPE = process.env.DATABASE_TYPE;
+// const DATABASE_LOGGING = process.env.DATABSE_LOGGING;
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+// const DB = new Sequelize(
+//   DATABASE,
+//   DATABASE_USERNAME,
+//   DATABASE_PASSWORD,
+//   {
+//     host: DATABASE_HOST,
+//     port: DATABASE_PORT,
+//     dialect: DATABASE_TYPE,
+//     logging: DATABASE_LOGGING,
+//   }
+// );
 
-db.Merchant = require("./merchant")(sequelize, DataTypes);
-db.Product = require("./product")(sequelize, DataTypes);
-db.Transaction = require("./transaction")(sequelize, DataTypes);
+// Impor model
+import User from "./user.js";
+import Product from "./product.js";
+import Transaction from "./transaction.js";
 
-db.Merchant.hasMany(db.Product);
-db.Product.belongsTo(db.Merchant);
+// Definisikan relasi antar model
+User.hasMany(Transaction);
+Product.hasMany(Transaction);
+Transaction.belongsTo(User);
+Transaction.belongsTo(Product);
 
-db.Transaction.belongsTo(db.Product);
-db.Transaction.belongsTo(db.Merchant);
-
-module.exports = db;
+// Pastikan untuk mengekspor sequelize dan models
+export { User, Product, Transaction };
