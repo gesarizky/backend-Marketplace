@@ -1,12 +1,12 @@
-# backend-nama-lengkap
+# Marketplace API
 
 ## Setup
 
 1. Clone the repository
 
     ```bash
-    git clone https://github.com/yourusername/backend-nama-lengkap.git
-    cd backend-nama-lengkap
+    git clone 
+    cd backend-gesa
     ```
 
 2. Install dependencies
@@ -21,19 +21,20 @@
 
         ```dotenv
         JWT_SECRET=your_jwt_secret
+        DATABASE = 'marketplace'
+        DATABASE_USERNAME = 'username'
+        DATABASE_PASSWORD = 'password'
+        DATABASE_HOST = 'localhost'
+        DATABASE_PORT = 3306
+        DATABASE_TYPE = 'mysql'
+        DATABASE_LOGGING = false
         ```
 
 4. Setup the database
     - Create a MySQL database named `marketplace`
-    - Configure your database credentials in `config/config.json`
+    - Configure your database credentials in `.env`
 
-5. Run migrations
-
-    ```bash
-    npx sequelize-cli db:migrate
-    ```
-
-6. Start the server
+5. Start the server
 
     ```bash
     npm start
@@ -45,7 +46,7 @@
 
 #### Register
 
-    POST /api/auth/register
+POST /api/auth/register
     Body:
     {
         "username": "merchant1",
@@ -55,7 +56,7 @@
 
 #### Login
 
-    POST /api/auth/login
+POST /api/auth/login
     Body:
     {
         "username": "merchant1",
@@ -66,7 +67,7 @@
 
 #### Create Product (Merchant only)
 
-    POST /api/products
+POST /api/products
     Headers:
     {
         "Authorization": "Bearer your_jwt_token"
@@ -79,11 +80,11 @@
 
 #### List Products
 
-    GET /api/products
+GET /api/products
 
 #### Update Product (Merchant only)
 
-    PUT /api/products/:id
+PUT /api/products/:id
     Headers:
     {
         "Authorization": "Bearer your_jwt_token"
@@ -96,7 +97,7 @@
 
 #### Delete Product (Merchant only)
 
-    DELETE /api/products/:id
+DELETE /api/products/:id
     Headers:
     {
         "Authorization": "Bearer your_jwt_token"
@@ -106,7 +107,7 @@
 
 #### Create Transaction (Customer only)
 
-    POST /api/transactions
+POST /api/transactions
     Headers:
     {
         "Authorization": "Bearer your_jwt_token"
@@ -119,7 +120,7 @@
 
 #### Get Transactions by Merchant (Merchant only)
 
-    GET /api/transactions/merchant
+GET /api/transactions/merchant
     Headers:
     {
         "Authorization": "Bearer your_jwt_token"

@@ -6,6 +6,18 @@ const Transaction = DB.define("Transaction", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  total: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  shippingCost: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  discount: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
 });
 
 export default Transaction;
